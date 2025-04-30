@@ -59,10 +59,13 @@ const generateRoutines = async (req, res) => {
         const {name, week, tareas} = req.body;
         //Creo la rutina
         const result = await routineModel.insertRoutine(name, week, userData.id);
-        console.log('Rutina creada con ID:', result)
+        console.log('Rutina creada con ID:', result.insertId);
+        console.log('Tareas:', tareas);
+        console.log('Result:', result);
         //Creo las tareas asociadas
-        if (tareas.length > 0) {
-            await routineModel.insertTask(result);
+        if (tareas) {
+            const resultTask = await routineModel.insertTask(result.insertId, tareas);
+            console.log('Se han guardado las tareas')
         }
         return res.status(201).json({message: 'Rutina registrada con éxito', id: result});
     } catch (error){
@@ -71,22 +74,65 @@ const generateRoutines = async (req, res) => {
     }
 };
 
+
+
 /*  
-{"Users_id": 5,
-"name": "Mates",
-"week": "2025-04-07",
-"tareas":[
-  {
-    "task": "reading",
-    "weekDay":"martes",
-    "initTime": "12:00:00",
-    "endTime": "14:00:00",
-    "Description": "leer tema 6",
-    "Routine_id": 3
-  }]
+{
+  "name": "Rutina de Lenguas",
+  "week": "2025-04-29",
+  "tareas": [
+    {
+      "task": "Estudiar inglés",
+      "weekDay": "Lunes",
+      "initTime": "09:00",
+      "endTime": "10:00",
+      "Description": "Repaso de gramática"
+    },
+    {
+      "task": "Ver película en alemán",
+      "weekDay": "Miércoles",
+      "initTime": "18:00",
+      "endTime": "20:00",
+      "Description": "Película subtitulada para mejorar listening"
+    }
+  ]
 }
 
      */
 
 
-module.exports = {seeRoutines, generateRoutines};
+const generateTask = async (req, res) => {
+    try{
+        //Para obtener el id del usuario y poder cargar los datos en este id
+        const userResult = await routineModel.seeProfile(req.user.username);
+        if(userResult.length === 0) {
+            return res.status(404).json({message: 'No se han encontrado el usuario'});
+         }
+        const userData = {
+            id:userResult.idUsers, username:userResult.username
+        }
+        console.log('Id de usuario:', userData.id)
+        const {IdRoutine, task, weekDay, initTime, endTime, Description} = req.body;
+        //Creo las tareas asociadas
+        const resultTask = await routineModel.insertOneTask(IdRoutine, task, weekDay, initTime, endTime, Description);
+
+        return res.status(201).json({message: 'Tarea registrada con éxito', id: resultTask});
+    } catch (error){
+        console.log(error)
+        return res.status(500).json(error);
+    }
+};
+
+/*
+{
+      "IdRoutine": 5,
+      "task": "Estudiar francés",
+      "weekDay": "Lunes",
+      "initTime": "09:00",
+      "endTime": "10:00",
+      "Description": "Repaso de gramática"
+}
+*/
+
+
+module.exports = {seeRoutines, generateRoutines, generateTask};

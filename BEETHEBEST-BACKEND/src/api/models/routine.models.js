@@ -27,12 +27,25 @@ const insertRoutine = async (name, week, Users_id) => {
     return result;
 };
 
-//Crear tareas en BBDD asociadas a una rutina
+//Crear tareas en BBDD asociadas a una rutina. No funciona
 
 const insertTask = async (IdRoutine, tareas) => {
+    //Para leer el array de tareas y poder insertarlas una a una
     const insert = (`INSERT INTO tasks (task, weekDay, initTime, endTime, Description, Routine_id) VALUES(?,?,?,?,?,?)`);
-    const [result] = await pool.query(insert, [task, weekDay, initTime, endTime, Description, Routine_id]);
-    return result;
+    for (const tarea of tareas){
+        const {task, weekDay, initTime, endTime, Description } = tarea;
+        const [resultTask] = await pool.query(insert, [task, weekDay, initTime, endTime, Description, IdRoutine]);
+    }
+    
+    return true;
 }
 
-module.exports = {seeProfile, selectRoutines, insertRoutine, insertTask};
+//Insertar una única tarea
+const insertOneTask = async (IdRoutine, task, weekDay, initTime, endTime, Description) => {
+    //Para leer el array de tareas y poder insertarlas una a una
+    const insert = (`INSERT INTO tasks (task, weekDay, initTime, endTime, Description, Routine_id) VALUES(?,?,?,?,?,?)`);
+    const [resultOneTask] = await pool.query(insert, [task, weekDay, initTime, endTime, Description, IdRoutine]);
+    return resultOneTask;
+}
+
+module.exports = {seeProfile, selectRoutines, insertRoutine, insertTask, insertOneTask};
