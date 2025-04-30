@@ -1,0 +1,21 @@
+<a [routerLink]="['/home']">Volver a Inicio</a>
+
+<h1>Inicia sesión</h1>
+
+<div class="container">
+    <form class="form" [formGroup]="form" (submit)="submit()">
+      <fieldset class="form-control">
+        <label for="nombreUsuario">Nombre usuario</label>
+        <input type="text" name="nombreUsuario" 
+          id="nombreUsuario" formControlName="nombreUsuario">
+      </fieldset>
+      <fieldset>
+        <label for="contrasena">Contraseña</label>
+        <input type="password" name="contrasena" 
+          id="contrasena" formControlName="contrasena">
+      </fieldset>
+      <div class="button-container">
+        <button type="submit">Acceder</button>
+      </div>
+    </form>
+  </div>
