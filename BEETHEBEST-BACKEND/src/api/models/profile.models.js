@@ -1,9 +1,10 @@
 const pool = require('../../utils/conexion_db');
 
 
-const seeProfile = async (username) => {
+const seeProfile = async (usernameSelected) => {
+    console.log(usernameSelected)
     const select = (`SELECT * FROM users WHERE username = ?`);
-    const [result] = await pool.query(select, [username]);
+    const [result] = await pool.query(select, [usernameSelected]);
     if (result.length === 0) {
         return false;
     }

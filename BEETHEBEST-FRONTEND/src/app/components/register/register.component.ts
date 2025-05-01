@@ -1,3 +1,4 @@
+import { AuthTokenService } from './../../services/auth-token.service';
 import { routes } from './../../app.routes';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
@@ -27,16 +28,22 @@ export class RegisterComponent {
       alert('Algún dato no está bien')
       return;
     }
-    console.log('submit', this.form.value);
-    console.log('isValid', this.form.valid);
-    const nuevoUsuario = this.usuarioService.createUser(
-      this.form.value.username!,
-      this.form.value.email!,
-      this.form.value.password!,
-    );
-    if(nuevoUsuario) {
-      alert('Usuario registrado con éxito');
-      this.router.navigate(['/login']);
-    }
+    const username = this.form.value.username!;
+    const email = this.form.value.email!;
+    const password = this.form.value.password!;
+    
+    //Llamo al servicio users para crear el usuario
+    const nuevoUsuario = this.usuarioService.createUser(username, email, password)
+    .subscribe({
+      next: (response) => {
+        console.log('Usuario creado:', response);
+        alert('Usuario registrado con éxito');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Error al registrar:', err);
+        alert('Error al registrar el usuario');
+      }
+    });
   }
 }

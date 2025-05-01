@@ -12,7 +12,7 @@ const selectByUsername = async (username) => {
     if (result.length === 0) {
         return false;
     }
-    return result[0];
+    return result[0]; //Devuelve el usuario si existe
 };
 
 

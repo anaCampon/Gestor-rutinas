@@ -33,35 +33,16 @@ const login = async (req, res) => {
         }
         //Crear el token
         const token = createToken(selectedUser);
-        return res.status(200).json({token: token});
+        return res.status(200).json({token: token, usernameSelected: selectedUser.username});
     } catch (error){
         console.log(error)
         return res.status(500).json(error);
     }
 };
 
-const profile = async (req, res) => {
-    try{
-        if (req.user){
-            const result = await userModel.seeProfile(req.user.username);
-            if(result.length === 0) {
-                return res.status(404).json({message: 'No se han encontrado datos'});
-            }
-            //Para que no se imprima la contraseña
-            const userData = {
-                id:result.idusers, username:result.username
-            }
-            return res.status(200).json({data: userData});
-        }else{
-            return res.status(400).json({message: 'Debe enviar el nombre'});
-        }
-    } catch (error){
-        console.log(error)
-        return res.status(500).json(error);
-    }
-};
 
-module.exports = { login, register, profile };
+
+module.exports = { login, register};
 
 
 /* Probar en THUNDERCLIENT POST
