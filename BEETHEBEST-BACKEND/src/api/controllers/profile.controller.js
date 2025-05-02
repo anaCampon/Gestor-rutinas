@@ -32,7 +32,7 @@ const profile = async (req, res) => {
             }
             //Para que no se imprima la contraseña
             const userData = {
-                id:result.idusers, username:result.username
+                id:result.idusers, username:result.username, interests:result.interests, weekly_goals:result.weekly_goals, weekly_availability:result.weekly_availability
             }
             return res.status(200).json({data: userData});
         }else{

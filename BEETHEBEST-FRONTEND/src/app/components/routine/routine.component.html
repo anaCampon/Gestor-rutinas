@@ -1,0 +1,17 @@
+<p>Rutina: </p>
+<p> Mis rutinas:</p>
+
+<div *ngFor="let rutina of groupedRoutines | keyvalue">
+    <h3>{{ rutina.key }}</h3>
+    <ul>
+      <li *ngFor="let tarea of rutina.value">
+        Día: {{ tarea.week | date:'fullDate' }}<br>
+        Hora inicio: {{ tarea.initTime }}<br>
+        Hora fin: {{ tarea.endTime }}<br>
+        Descripción: {{ tarea.description }}
+      </li>
+    </ul>
+  </div>
+
+<button (click)="goBack()">[X] Volver</button>
+

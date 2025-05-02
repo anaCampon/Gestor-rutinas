@@ -15,30 +15,7 @@ const seeRoutines = async (req, res) => {
         //Una vez tengo el id que ha introducido el token muestro las rutinas solo de ese id
         const result = await routineModel.selectRoutines(userData.id);
 
-        //Mejoro la visualización de los resultados
-        const routinesMap = {};
-
-        result.forEach(row => {
-            if (!routinesMap[row.Routine_id]){
-                routinesMap[row.Routine_id] = {
-                    id: row.Routine_id,
-                    nombre: row.name,
-                    semana: row.week,
-                    tareas: []
-                };
-            }
-            if (row.id_tasks) {
-                routinesMap[row.Routine_id].tareas.push({
-                    id: row.id_tasks,
-                    dia: row.weekDay,
-                    horaInicio: row.initTime,
-                    horaFin: row.endTime,
-                    Descripcion: row.Description
-                });
-              }
-        } )
-
-        return res.status(200).json({ data: routinesMap});
+        return res.status(200).json({ data: result});
     } catch (error){
         console.error('Error en seeRoutines:', error);
         return res.status(500).json({error: 'Error al obtener las rutinas'});
