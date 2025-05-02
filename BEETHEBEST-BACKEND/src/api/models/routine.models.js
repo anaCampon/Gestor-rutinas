@@ -14,7 +14,15 @@ const seeProfile = async (username) => {
 //Ver rutinas
 
 const selectRoutines = async (id) => {
-    const sqlSelect = (`SELECT * FROM routine LEFT JOIN tasks ON Routine_id WHERE Users_id = ? ORDER BY FIELD(weekDay, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'), initTime;`);
+    const sqlSelect = `
+        SELECT * 
+        FROM routine 
+        LEFT JOIN tasks 
+        ON routine.idRoutine = tasks.Routine_id 
+        WHERE Users_id = ? 
+        ORDER BY FIELD(weekDay, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'), initTime;
+    `;
+    //const sqlSelect = (`SELECT * FROM routine LEFT JOIN tasks ON Routine_id WHERE Users_id = ? ORDER BY FIELD(weekDay, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'), initTime;`);
     const [result] = await pool.query(sqlSelect, [id]);
     return result;
 };

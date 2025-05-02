@@ -2,16 +2,27 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RoutineService } from '../../services/routine.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-routine',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './routine.component.html',
   styleUrl: './routine.component.css'
 })
 export class RoutineComponent implements OnInit {
   routineService = inject(RoutineService);
   router = inject(Router);
+
+  
+  activeForm: string | null = null; // Rutina a la que se está añadiendo la tarea
+  newTask: any = {
+    task: '',
+    weekDay: '',
+    initTime: '',
+    endTime: '',
+    Description: ''
+  };
 
   public taskName: String ='';
   public weekDay: String ='';
@@ -40,21 +51,6 @@ export class RoutineComponent implements OnInit {
       }
       console.log('Rutinas agrupadas por nombre:', result);
       this.groupedRoutines = result;
-
-      /*for (let i = 0; i < response.data.length; i++) {
-        let arrayRoutines = [];
-        const rutina = response.data;
-        
-        if (rutina[i].idRoutine)
-        this.taskName = rutina.tasks[0].taskName;
-        this.weekDay = rutina.tasks[0].weekDay;
-        this.initTime = rutina.tasks[0].initTime;
-        this.endTime = rutina.tasks[0].endTime;
-        this.description = rutina.tasks[0].description;
-      };
-      this.tasks = response.data;
-      this.groupedRoutines = this.groupByName(response.data);
-      console.log('Grouped Routines:', this.groupedRoutines);*/
     },
     error: (err) => {
       console.error('Error al obtener el listado de rutinas:', err);
@@ -73,8 +69,51 @@ export class RoutineComponent implements OnInit {
     return resultado;
   }
 
-  goBack () {
+  goBackButton () {
     this.router.navigate(['/profile']);
+  }
+
+  createRoutineButton () {
+    this.router.navigate(['/routine/generate']);
+  }
+
+  toggleForm(routineName: string): void {
+    this.activeForm = this.activeForm === routineName ? null : routineName;
+    this.resetForm();
+  }
+
+  resetForm(): void {
+    this.newTask = {
+      task: '',
+      weekDay: '',
+      initTime: '',
+      endTime: '',
+      Description: ''
+    };
+  }
+
+  addTask(routineName: string): void {
+    const tareas = this.groupedRoutines[routineName];
+    const rutina = tareas[0]; // Cualquier tarea contiene los datos de la rutina, incluido su id
+
+    const taskToSend = {
+      ...this.newTask,
+      IdRoutine: rutina.Routine_id
+    };
+
+    console.log('Tarea a enviar:', taskToSend);
+
+    this.routineService.addTask(taskToSend).subscribe({
+      next: () => {
+        alert('Tarea añadida con éxito');
+        this.routineService.seeRoutine(); // Recargar datos
+        this.activeForm = null;
+      },
+      error: (err) => {
+        console.error('Error al añadir tarea:', err);
+        alert('Error al añadir tarea');
+      }
+    });
   }
 
 }

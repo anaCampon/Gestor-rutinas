@@ -22,6 +22,21 @@ export class RoutineService {
     return this.http.get<Routine>(
       `${this.API_URL}/routine`, {headers});
   }
+
+  createRoutine(data:string): Observable<any>{
+    const token = this.authTokenService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    console.log('Rutina a enviar:', data);
+    return this.http.post(
+      `${this.API_URL}/routine/generate`, data, {headers});
+  }
+
+  addTask(task: any): Observable<any> {
+    const token = this.authTokenService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(
+      `${this.API_URL}/routine/generate/task`, task, {headers});
+  }
   
 }
 

@@ -1,17 +1,35 @@
-<p>Rutina: </p>
-<p> Mis rutinas:</p>
+
+<h1> Mis rutinas:</h1>
+
+<button (click)="createRoutineButton()">Crear nueva rutina</button>
 
 <div *ngFor="let rutina of groupedRoutines | keyvalue">
     <h3>{{ rutina.key }}</h3>
     <ul>
       <li *ngFor="let tarea of rutina.value">
+        <strong>{{ tarea.task }}</strong><br>
+        {{ tarea.Description }}<br>
         Día: {{ tarea.week | date:'fullDate' }}<br>
-        Hora inicio: {{ tarea.initTime }}<br>
-        Hora fin: {{ tarea.endTime }}<br>
-        Descripción: {{ tarea.description }}
+        Hora inicio: {{ tarea.initTime }} - Hora fin: {{ tarea.endTime }}<br>
       </li>
     </ul>
+
+      <!-- Botón para mostrar formulario de nueva tarea -->
+    <button (click)="toggleForm(rutina.key)">+ Añadir tarea</button>
+
+    <!-- Formulario para añadir tarea (se muestra solo si coincide con la rutina activa) -->
+    <div *ngIf="activeForm === rutina.key">
+      <form (ngSubmit)="addTask(rutina.key)">
+        <input type="text" placeholder="Tarea" [(ngModel)]="newTask.task" name="task" required>
+        <input type="text" placeholder="Día de la semana" [(ngModel)]="newTask.weekDay" name="weekDay" required>
+        <input type="time" [(ngModel)]="newTask.initTime" name="initTime" required>
+        <input type="time" [(ngModel)]="newTask.endTime" name="endTime" required>
+        <input type="text" placeholder="Descripción" [(ngModel)]="newTask.Description" name="Description" required>
+
+        <button type="submit">Guardar tarea</button>
+      </form>
+    </div>
   </div>
 
-<button (click)="goBack()">[X] Volver</button>
+<button (click)="goBackButton()">[X] Volver</button>
 

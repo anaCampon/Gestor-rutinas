@@ -1,0 +1,44 @@
+<button (click)="goBackButton()">[X] Volver</button>
+
+<h2>Crear Nueva Rutina</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <!-- Nombre de la rutina -->
+  <label for="name">Nombre de la rutina:</label>
+  <input id="name" formControlName="name" />
+
+  <!-- Fecha de la semana -->
+  <label for="week">Semana (aaaa-mm-dd):</label>
+  <input id="week" type="date" formControlName="week" />
+
+  <hr />
+
+  <div formArrayName="tareas">
+    <div *ngFor="let tarea of tasks.controls; let i = index" [formGroupName]="i">
+      <h3>Tarea {{ i + 1 }}</h3>
+
+      <label for="task">Tarea:</label>
+      <input id="task" formControlName="task" />
+
+      <label for="weekDay">Día de la semana:</label>
+      <input id="weekDay" formControlName="weekDay" />
+
+      <label for="initTime">Hora de inicio:</label>
+      <input id="initTime" type="time" formControlName="initTime" />
+
+      <label for="endTime">Hora de fin:</label>
+      <input id="endTime" type="time" formControlName="endTime" />
+
+      <label for="Description">Descripción:</label>
+      <textarea id="Description" formControlName="Description"></textarea>
+
+      <button type="button" (click)="removeTask(i)">Eliminar tarea</button>
+      <hr />
+    </div>
+  </div>
+
+  <button type="button" (click)="addTask()">Añadir otra tarea</button>
+  <br /><br />
+  <button type="submit">Guardar Rutina</button>
+</form>
