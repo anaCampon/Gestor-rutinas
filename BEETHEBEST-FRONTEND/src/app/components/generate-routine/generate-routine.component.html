@@ -3,14 +3,13 @@
 
   <h2 class="mb-4">Crear Nueva Rutina</h2>
 
-  <form [formGroup]="form" (submit)="onSubmit()" class="p-4 border rounded shadow-sm bg-light needs-validation">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-4 border rounded shadow-sm bg-light needs-validation">
 
     <!-- Nombre de la rutina -->
     <div class="mb-3">
       <label for="name" class="form-label">Nombre de la rutina:</label>
       <input id="name" type="text" class="form-control" formControlName="name" 
-      [class.is-invalid]="form.controls['name'].touched && form.controls['name'].invalid"
-      />
+      [class.is-invalid]="form.controls['name'].touched && form.controls['name'].invalid" />
       <div class="invalid-feedback" *ngIf="form.controls['name'].touched && form.controls['name'].errors?.['required']">
         El nombre de la rutina es obligatorio.
       </div>
@@ -20,16 +19,13 @@
     <div class="mb-4">
       <label for="week" class="form-label">Semana (aaaa-mm-dd):</label>
       <input id="week" type="date" class="form-control" formControlName="week"
-      [class.is-invalid]="form.controls['week'].touched && form.controls['week'].invalid"
-      />
+      [class.is-invalid]="form.controls['week'].touched && form.controls['week'].invalid" />
       <div class="invalid-feedback" *ngIf="form.controls['week'].touched && form.controls['week'].errors?.['required']">
         La fecha es obligatoria.
       </div>
-
     </div>
 
     <!-- Tareas -->
-
     <div formArrayName="tareas">
       <div *ngFor="let tarea of tasks.controls; let i = index" [formGroupName]="i" class="mb-4 p-3 border rounded bg-white">
         <h5 class="mb-3">Tarea {{ i + 1 }}</h5>
@@ -37,51 +33,60 @@
         <div class="mb-3">
           <label class="form-label">Tarea:</label>
           <input type="text" class="form-control" formControlName="task"
-          [class.is-invalid]="taskGroup.controls['task'].touched && taskGroup.controls['task'].invalid"
-          />
-          <div class="invalid-feedback" *ngIf="taskGroup.controls['task'].touched && taskGroup.controls['task'].errors?.['required']">
+          [class.is-invalid]="tarea.get('task')?.touched && tarea.get('task')?.invalid" />
+          <div class="invalid-feedback" *ngIf="tarea.get('task')?.touched && tarea.get('task')?.hasError('required')">
             Introduce un nombre para la tarea.
           </div>
-
         </div>
-      </div>
 
+        <!-- Día de la semana -->
         <div class="mb-3">
-            <label class="form-label">Día de la semana:</label>
-            <select class="form-select" formControlName="weekDay"
-            [class.is-invalid]="taskGroup.get('weekDay')?.touched && taskGroup.get('weekDay')?.invalid">
+          <label class="form-label">Día de la semana:</label>
+          <select class="form-select"
+                  formControlName="weekDay"
+                  [class.is-invalid]="tarea.get('weekDay')?.touched && tarea.get('weekDay')?.invalid">
             <option value="">Selecciona un día</option>
             <option *ngFor="let day of weekDays" [value]="day">{{ day }}</option>
           </select>
-          <div class="invalid-feedback" *ngIf="taskGroup.get('weekDay')?.touched && taskGroup.get('weekDay')?.hasError('required')">
-            Elige un día de la semana.
-          </div>
-
-        </div>
-        
-<!--
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Hora de inicio:</label>
-            <input type="time" class="form-control" formControlName="initTime"
-                   [ngClass]="{'is-invalid': tarea.get('initTime')?.invalid && tarea.get('initTime')?.touched}">
-            <div class="invalid-feedback">Introduce la hora de inicio.</div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Hora de fin:</label>
-            <input type="time" class="form-control" formControlName="endTime"
-                   [ngClass]="{'is-invalid': tarea.get('endTime')?.invalid && tarea.get('endTime')?.touched}">
-            <div class="invalid-feedback">Introduce la hora de fin.</div>
+          <div class="invalid-feedback" *ngIf="tarea.get('weekDay')?.touched && tarea.get('weekDay')?.hasError('required')">
+            Selecciona un día.
           </div>
         </div>
 
+        <!-- Hora de inicio -->
+        <div class="mb-3">
+          <label class="form-label">Hora de inicio:</label>
+          <input type="time" class="form-control"
+                formControlName="initTime"
+                [class.is-invalid]="tarea.get('initTime')?.touched && tarea.get('initTime')?.invalid" />
+          <div class="invalid-feedback" *ngIf="tarea.get('initTime')?.touched && tarea.get('initTime')?.hasError('required')">
+            Introduce una hora de inicio.
+          </div>
+        </div>
+
+        <!-- Hora de fin -->
+        <div class="mb-3">
+          <label class="form-label">Hora de fin:</label>
+          <input type="time" class="form-control"
+                formControlName="endTime"
+                [class.is-invalid]="tarea.get('endTime')?.touched && tarea.get('endTime')?.invalid" />
+          <div class="invalid-feedback" *ngIf="tarea.get('endTime')?.touched && tarea.get('endTime')?.hasError('required')">
+            Introduce una hora de fin.
+          </div>
+        </div>
+
+        <!-- Descripción -->
         <div class="mb-3">
           <label class="form-label">Descripción:</label>
-          <textarea rows="3" class="form-control" formControlName="Description"
-                    [ngClass]="{'is-invalid': tarea.get('Description')?.invalid && tarea.get('Description')?.touched}"></textarea>
-          <div class="invalid-feedback">Agrega una breve descripción.</div>
+          <textarea rows="3" class="form-control"
+                    formControlName="Description"
+                    [class.is-invalid]="tarea.get('Description')?.touched && tarea.get('Description')?.invalid"></textarea>
+          <div class="invalid-feedback" *ngIf="tarea.get('Description')?.touched && tarea.get('Description')?.hasError('required')">
+            Introduce una descripción.
+          </div>
         </div>
 
+        <!-- Botones -->
         <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeTask(i)">
           <i class="bi bi-trash"></i> Eliminar tarea
         </button>
@@ -89,59 +94,13 @@
     </div>
 
     <div class="d-flex flex-wrap gap-2 mt-4">
-      <button type="button" class="btn btn-primary" (click)="addTask()">
+      <button type="button" class="btn btn-secondary" (click)="addTask()">
         <i class="bi bi-plus-circle"></i> Añadir otra tarea
       </button>
-      <button type="submit" class="btn btn-success" [disabled]="form.invalid">
+      <button type="submit" class="btn btn-warning" [disabled]="form.invalid">
         <i class="bi bi-save"></i> Guardar Rutina
       </button>
     </div>
   </form>
+
 </div>
-
--->
-
-<!-- <button (click)="goBackButton()">[X] Volver</button>
-
-<h2>Crear Nueva Rutina</h2>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-  
-  <label for="name">Nombre de la rutina:</label>
-  <input id="name" formControlName="name" />
-
-  
-  <label for="week">Semana (aaaa-mm-dd):</label>
-  <input id="week" type="date" formControlName="week" />
-
-  <hr />
-
-  <div formArrayName="tareas">
-    <div *ngFor="let tarea of tasks.controls; let i = index" [formGroupName]="i">
-      <h3>Tarea {{ i + 1 }}</h3>
-
-      <label for="task">Tarea:</label>
-      <input id="task" formControlName="task" />
-
-      <label for="weekDay">Día de la semana:</label>
-      <input id="weekDay" formControlName="weekDay" />
-
-      <label for="initTime">Hora de inicio:</label>
-      <input id="initTime" type="time" formControlName="initTime" />
-
-      <label for="endTime">Hora de fin:</label>
-      <input id="endTime" type="time" formControlName="endTime" />
-
-      <label for="Description">Descripción:</label>
-      <textarea id="Description" formControlName="Description"></textarea>
-
-      <button type="button" (click)="removeTask(i)">Eliminar tarea</button>
-      <hr />
-    </div>
-  </div>
-
-  <button type="button" (click)="addTask()">Añadir otra tarea</button>
-  <br /><br />
-  <button type="submit">Guardar Rutina</button>
-</form> -->

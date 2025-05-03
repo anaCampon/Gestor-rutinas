@@ -16,7 +16,8 @@ export class GenerateRoutineComponent implements OnInit {
   router = inject(Router);
   form!: FormGroup;
   weekDays: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-  taskGroup!: FormGroup;
+
+  
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -32,17 +33,21 @@ export class GenerateRoutineComponent implements OnInit {
   }
 
 
-  addTask() {
-    this.taskGroup = new FormGroup({
+  createTaskGroup(): FormGroup {
+    return new FormGroup({
       task: new FormControl('', Validators.required),
       weekDay: new FormControl('', Validators.required),
       initTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
       Description: new FormControl('', Validators.required)
     });
-    (this.tasks.push(this.taskGroup));
+  }
+
+  addTask(): void {
+    this.tasks.push(this.createTaskGroup());
     console.log(this.tasks)
   }
+
 
   removeTask (id: number): void {
     this.tasks.removeAt(id);
@@ -51,6 +56,7 @@ export class GenerateRoutineComponent implements OnInit {
   onSubmit():void{
     if (this.form.invalid){
       alert('Rellena todos los campos')
+      this.form.markAllAsTouched();
       return;
     }
     const data = this.form.value;
@@ -69,14 +75,7 @@ export class GenerateRoutineComponent implements OnInit {
     })
   }
 
-  /*public name: String ='';
-  public week: String ='';
-  public tasks: Array<String> =[];*/
-
-
-
-
-  goBackButton () {
+  goBackButton (): void {
     this.router.navigate(['/routine']);
   }
 }
