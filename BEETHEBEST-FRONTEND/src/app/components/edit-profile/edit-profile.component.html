@@ -1,26 +1,28 @@
-<div class="container">
-    <h3>Editar perfil</h3>
-    <form [formGroup]="form" (submit)="onSubmit()">
-    <div>
-        <label for="interests" class="form-label">Intereses: </label>
-        <input type="text" id="interests" class="interests" formControlName="interests" />
-    </div>
+<div class="container mt-5 mb-5">
+    <h3 class="mb-4">Editar perfil</h3>
   
-    <div>
-        <label for="weekly_goals" class="weekly_goals">Objetivos semanales: </label>
-        <input type="text" id="weekly_goals" class="form-control" formControlName="weeklyGoals" />
-    </div>
-
-    <div>
-        <label for="availability" class="availability">Disponibilidad semanal: </label>
-        <input type="text" id="availability" class="form-control" formControlName="weeklyAvailability" />
-    </div>
+    <form [formGroup]="form" (submit)="onSubmit()" class="p-4 border rounded shadow-sm bg-light">
+      
+      <div class="mb-3">
+        <label for="interests" class="form-label">Intereses</label>
+        <input type="text" id="interests" class="form-control" formControlName="interests">
+      </div>
   
-    <div class="button-container">
-        <button type="submit">Guardar cambios</button>
-    </div>
-    <div class="button-container">
-        <button (click)="goBack()">[X] Volver</button>
-    </div>
+      <div class="mb-3">
+        <label for="weekly_goals" class="form-label">Objetivos semanales</label>
+        <input type="text" id="weekly_goals" class="form-control" formControlName="weeklyGoals">
+      </div>
+  
+      <div class="mb-4">
+        <label for="availability" class="form-label">Disponibilidad semanal</label>
+        <input type="text" id="availability" class="form-control" formControlName="weeklyAvailability">
+      </div>
+  
+      <div class="d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-warning">Guardar cambios</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="goBack()">[X] Volver</button>
+      </div>
+  
     </form>
 </div>
+

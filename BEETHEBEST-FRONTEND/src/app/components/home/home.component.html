@@ -1,22 +1,49 @@
-<header>
-    <div id="inicio"> 
+
+<main>
+ <!-- Sección principal -->
+ <section class="contenedorPrincipal">
+    <div class="container d-grid gap-4">
+      <h1 class="display-5 fw-bold">Productividad sin límites</h1>
+      <p class="lead gap-4">Organiza tu aprendizaje diario con rutinas adaptadas a tu estilo.</p>
+      <h2 class="display-6 fw-bold">¡Empieza hoy!</h2>
+      <!-- d-md-flex es display flex para pantallas md. mt es margin top -->
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+        <a class="btn btn-secondary btn-lg mt-3 " [routerLink]="['/register']"> Registrarse </a>
+        <a class="btn btn-warning btn-lg mt-3 " [routerLink]="['/login']">Inicia Sesión</a>
+      </div>
     </div>
-    <div class="contenedor-azul">
-        <i class="logo" href="/images/pngtree-bee-vector-icon-illustration-design-concept-logo-nature-beeswax-vector-png-image_12533879.png"></i>
-        <h1>BeetheBest</h1>
-        <a target="_blank" href="http://localhost:4200/home">
-            <div class="cabecera">
-                <i class="fa-solid fa-circle-user" style="color: yellow;"></i>
-                <p>Usuario</p>
-            </div>
-        </a>
+  </section>
+
+  <!-- Sección secundaria -->
+  <div class="container my-5">
+    <h2 class="text-center mb-4">¿Qué puedes hacer?</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card shadow card-body">
+            <h5 class="card-title">Crear Rutinas</h5>
+            <p class="card-text">Diseña planes diarios, semanales o mensuales según tus objetivos.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow card-body">
+            <h5 class="card-title">Seguimiento</h5>
+            <p class="card-text">Revisa tu progreso, añade nuevas tareas y haz ajustes en tiempo real.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow card-body">
+            <h5 class="card-title">Aprendizaje Personalizado</h5>
+            <p class="card-text">El sistema te sugiere tareas según tus intereses y nivel.</p>
+        </div>
+      </div>
     </div>
-</header>
+  </div>
+
+</main>
+ 
 
 
 
-<h1>Productividad sin límites</h1>
-<h2> ¡Empieza hoy! </h2>
-<a [routerLink]="['/register']">Regístrate</a>
-<a [routerLink]="['/login']">Inicia Sesión</a>
+
+
 

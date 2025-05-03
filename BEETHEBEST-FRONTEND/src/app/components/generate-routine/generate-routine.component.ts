@@ -15,6 +15,8 @@ export class GenerateRoutineComponent implements OnInit {
   routineService = inject(RoutineService);
   router = inject(Router);
   form!: FormGroup;
+  weekDays: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  taskGroup!: FormGroup;
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -31,14 +33,14 @@ export class GenerateRoutineComponent implements OnInit {
 
 
   addTask() {
-    const taskGroup = new FormGroup({
+    this.taskGroup = new FormGroup({
       task: new FormControl('', Validators.required),
       weekDay: new FormControl('', Validators.required),
       initTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
       Description: new FormControl('', Validators.required)
     });
-    (this.tasks.push(taskGroup));
+    (this.tasks.push(this.taskGroup));
     console.log(this.tasks)
   }
 

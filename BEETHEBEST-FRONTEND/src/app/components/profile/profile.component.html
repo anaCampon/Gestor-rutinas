@@ -1,4 +1,40 @@
-<a [routerLink]="['/home']">Volver a Inicio</a>
+
+
+<div class="container mt-5">
+  <div class="card shadow-lg p-4">
+    <h3 class="text-center mb-4"> Hola, <span class="text-secondary">{{ username }}</span></h3>
+
+    <div class="container mb-3">
+        @if(interests){
+            <p><strong>Intereses: </strong>{{interests}}</p>
+        }
+    </div>
+    <div class="container mb-3">
+        @if(weekly_goals){
+            <p> <strong>Tus objetivos semanales: </strong> {{weekly_goals}} </p>
+        }
+    </div>
+    <div class="container mb-3">
+        @if(weekly_availability){
+            <p> <strong>Tu disponibilidad semanal: </strong> {{weekly_availability}}  </p>
+        }
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-between mt-4">
+      <button class="btn btn-outline-secondary" (click)="updateProfile()"> Editar perfil</button>
+      <button class="btn btn-warning" (click)="seeRoutines()"> Ver mis rutinas</button>
+      <button class="btn btn-outline-danger" (click)="goHome()"> Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- <a [routerLink]="['/home']">Volver a Inicio</a>
 <h3 class="title-text">Hola, {{username}} </h3>
 <div class="container">
     @if(interests){
@@ -15,4 +51,4 @@
     <button (click)="seeRoutines()">Ver mis rutinas</button>
     <button (click)="goHome()"> [X] Cerrar Sesión</button>
 
-  </div>
+  </div> -->
