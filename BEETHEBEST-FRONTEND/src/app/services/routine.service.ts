@@ -37,6 +37,23 @@ export class RoutineService {
     return this.http.post(
       `${this.API_URL}/routine/generate/task`, task, {headers});
   }
+
+  updateTask(id: number, updatedTask: any): Observable<any> {
+    const token = this.authTokenService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put(
+      `${this.API_URL}/routine/${id}`, updatedTask, {headers}
+    );
+  }
+
+  deleteTask(id: number): Observable<any> {
+    const token = this.authTokenService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(
+      `${this.API_URL}/routine/${id}`, {headers}
+    );
+  }
+  
   
 }
 

@@ -14,7 +14,7 @@
         class="form-control"
         formControlName="username"
         [class.is-invalid]="form.controls['username'].touched && form.controls['username'].invalid"
-      />
+      /> <!-- Agrego la clase is-invalid para dar formato bootstrap, si cumple esos requisitos -->
       <div class="invalid-feedback" *ngIf="form.controls['username'].touched && form.controls['username'].errors?.['required']">
         El campo Nombre es obligatorio
       </div>

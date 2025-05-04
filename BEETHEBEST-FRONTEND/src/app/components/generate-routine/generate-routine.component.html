@@ -27,6 +27,7 @@
 
     <!-- Tareas -->
     <div formArrayName="tareas">
+      <!-- Itero sobre cada FormGroup (tarea) dentro de mi FromArray de tareas para hacer tarjetas por cada tarea -->
       <div *ngFor="let tarea of tasks.controls; let i = index" [formGroupName]="i" class="mb-4 p-3 border rounded bg-white">
         <h5 class="mb-3">Tarea {{ i + 1 }}</h5>
 
@@ -87,19 +88,13 @@
         </div>
 
         <!-- Botones -->
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeTask(i)">
-          <i class="bi bi-trash"></i> Eliminar tarea
-        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeTask(i)">Eliminar tarea</button>
       </div>
     </div>
 
     <div class="d-flex flex-wrap gap-2 mt-4">
-      <button type="button" class="btn btn-secondary" (click)="addTask()">
-        <i class="bi bi-plus-circle"></i> Añadir otra tarea
-      </button>
-      <button type="submit" class="btn btn-warning" [disabled]="form.invalid">
-        <i class="bi bi-save"></i> Guardar Rutina
-      </button>
+      <button type="button" class="btn btn-secondary" (click)="addTask()"> Añadir otra tarea</button>
+      <button type="submit" class="btn btn-warning" [disabled]="form.invalid"> Guardar Rutina</button>
     </div>
   </form>
 

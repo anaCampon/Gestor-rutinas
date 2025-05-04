@@ -51,7 +51,66 @@ const generateRoutines = async (req, res) => {
     }
 };
 
+const getTaskById = async (req, res) => {
+    try{
+        if (req.params.id){
+            const result = await routineModel.selectTaskById(req.params.id);
+            if(result.length === 0){
+            return res.status(404).json({message: 'No se han encontrado datos'});
+            }
+            return res.status(200).json({ data: result});
+        } else {
+            return res.status(400).json({ message: 'debe enviar el id'})
+        }
+    } catch (error){
+        return res.status(500).json(error);
+    }
+};
 
+const updateTask = async (req, res) => {
+    try{
+        const id = req.params.id;
+        const { task, weekDay, initTime,  endTime, Description, Routine_id } = req.body;
+        //Busco si existe una tarea con el mismo id
+        const selectedId = await routineModel.selectTaskById(id);
+            if (selectedId.length === 0) {
+                return res.status(400).json({message: 'tarea no incluida en la Base de Datos'});
+            } else {
+                //Si existe lo modifico en la BBDD
+                const result = await routineModel.modifyTask({ id_tasks:id, task, weekDay, initTime,  endTime, Description, Routine_id });
+                console.log(selectedId)
+                if(!result){
+                    return res.status(400).json({message: 'No se ha modificado'});
+                }
+                return res.status(200).json({ message: "Tarea actualizada correctamente" });
+            }
+    } catch (error){
+        console.error("Error en el servidor:", error);
+        return res.status(500).json({ message: "Error en el servidor", error });
+    }
+};
+
+
+const dropTask = async (req, res) => {
+    try{
+        const id = req.params.id;
+        //Busco si existe una tarea con el mismo id
+        const selectedId = await routineModel.selectTaskById(id);
+            if (selectedId.length === 0) {
+                return res.status(400).json({message: 'Tarea no incluida en la Base de Datos'});
+            } else {
+                //Si existe lo modifico en la BBDD
+                const result = await routineModel.deleteTask(req.params.id);
+                if(!result){
+                    return res.status(400).json({message: 'No se ha eliminado'});
+                }
+                return res.status(201).json({ message: "Tarea eliminada correctamente" });
+            }
+    } catch (error){
+        console.error("Error en el servidor:", error);
+        return res.status(500).json({ message: "Error en el servidor", error });
+    }
+};
 
 /*  
 {
@@ -112,4 +171,4 @@ const generateTask = async (req, res) => {
 */
 
 
-module.exports = {seeRoutines, generateRoutines, generateTask};
+module.exports = {seeRoutines, generateRoutines, generateTask, getTaskById, updateTask, dropTask};

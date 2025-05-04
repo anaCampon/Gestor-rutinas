@@ -1,35 +1,84 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Mis Rutinas</h1>
+    <button class="btn btn-warning" (click)="createRoutineButton()">Crear nueva rutina</button>
+  </div>
 
-<h1> Mis rutinas:</h1>
+  <!-- Mostrar los días de la semana en columnas ordenadas -->
+  <div class="row flex-lg-wrap">
+    <div *ngFor="let grupo of orderedGroupedRoutines" class="col-lg-1 col-md-6 mb-4" style="min-width: 185px;">
+      <div class="card h-100 shadow-sm">
+        <!--Encabezado de la tarjeta-->
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 text-capitalize">{{ grupo.day }}</h6>
+          <button class="btn btn-outline-light btn-sm" (click)="toggleForm(grupo.day)">+</button>
+        </div>
 
-<button (click)="createRoutineButton()">Crear nueva rutina</button>
+        <ul class="list-group list-group">
+          <!-- Si no hay tareas -->
+           @if(!grupo.tasks[0]) {<li class="list-group-item text-muted">
+            Sin tareas asignadas
+          </li>}
 
-<div *ngFor="let rutina of groupedRoutines | keyvalue">
-    <h3>{{ rutina.key }}</h3>
-    <ul>
-      <li *ngFor="let tarea of rutina.value">
-        <strong>{{ tarea.task }}</strong><br>
-        {{ tarea.Description }}<br>
-        Día: {{ tarea.week | date:'fullDate' }}<br>
-        Hora inicio: {{ tarea.initTime }} - Hora fin: {{ tarea.endTime }}<br>
-      </li>
-    </ul>
+          <!-- Si hay tareas -->
+          <li *ngFor="let tarea of grupo.tasks" class="list-group-item">
+            <strong class="mb-2 mt-2">{{ tarea.task }}</strong><br>
+            <p class=" mt-2">{{ tarea.Description }}</p><br>
+            <p class="mb-1">Rutina: {{ tarea.routineName }}</p><br>
+            <p class="mb-1">{{ tarea.initTime }} - {{ tarea.endTime }}</p>
+              <div class="mt-1">
+                <button class="btn btn-sm btn-outline-secondary me-1" (click)="startEdit(tarea)">Editar</button>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(tarea.id_tasks)">Eliminar</button>
+              </div>
 
-      <!-- Botón para mostrar formulario de nueva tarea -->
-    <button (click)="toggleForm(rutina.key)">+ Añadir tarea</button>
+            <!-- Formulario de edición -->
 
-    <!-- Formulario para añadir tarea (se muestra solo si coincide con la rutina activa) -->
-    <div *ngIf="activeForm === rutina.key">
-      <form (ngSubmit)="addTask(rutina.key)">
-        <input type="text" placeholder="Tarea" [(ngModel)]="newTask.task" name="task" required>
-        <input type="text" placeholder="Día de la semana" [(ngModel)]="newTask.weekDay" name="weekDay" required>
-        <input type="time" [(ngModel)]="newTask.initTime" name="initTime" required>
-        <input type="time" [(ngModel)]="newTask.endTime" name="endTime" required>
-        <input type="text" placeholder="Descripción" [(ngModel)]="newTask.Description" name="Description" required>
+            <form *ngIf="editingTask?.id_tasks === tarea.id_tasks" (ngSubmit)="saveEdit()">
+              <input type="text" class="form-control mb-1" [(ngModel)]="editingTask.task" name="editTask" required>
+              <input type="time" class="form-control mb-1" [(ngModel)]="editingTask.initTime" name="editInitTime" required>
+              <input type="time" class="form-control mb-1" [(ngModel)]="editingTask.endTime" name="editEndTime" required>
+              <input type="text" class="form-control mb-1" [(ngModel)]="editingTask.Description" name="editDescription">
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+                <button type="button" class="btn btn-secondary btn-sm" (click)="cancelEdit()">Cancelar</button>
+              </div>
+            </form>
+          </li>
+        </ul>
 
-        <button type="submit">Guardar tarea</button>
-      </form>
+        <div *ngIf="activeForm === grupo.day" class="card-body border-top">
+          <form (ngSubmit)="addTask(grupo.day)" class="row g-2">
+            <div class="col-12">
+              <select class="form-select" [(ngModel)]="newTask.routineName" name="routineName" required>
+                <option value="">Selecciona una rutina</option>
+                <option *ngFor="let name of routineNames" [value]="name">
+                  {{ name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control" placeholder="Tarea" [(ngModel)]="newTask.task" name="task" required>
+            </div>
+            <div class="col-12">
+              <input type="time" class="form-control" [(ngModel)]="newTask.initTime" name="initTime" required>
+            </div>
+            <div class="col-12">
+              <input type="time" class="form-control" [(ngModel)]="newTask.endTime" name="endTime" required>
+            </div>
+            <div class="col-12">
+              <input type="text" class="form-control" placeholder="Descripción" [(ngModel)]="newTask.Description" name="Description" required>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-warning w-100">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 
-<button (click)="goBackButton()">[X] Volver</button>
+  <div class="mt-4">
+    <button class="btn btn-outline-secondary" (click)="goBackButton()">Volver</button>
+  </div>
+</div>
 

@@ -1,0 +1,6 @@
+@media (min-width: 992px) {
+    .col-lg-1-7 {
+      width: 14%; /* 100 / 7 */
+      float: left;
+    }
+  }

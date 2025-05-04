@@ -1,4 +1,4 @@
-const eventModel = require('../models/event.models');
+/*const eventModel = require('../models/event.models');
 const bcrypt = require('bcrypt');
 const {createToken} = require ('../../utils/jwt');
 
