@@ -14,6 +14,23 @@ BeeTheBest es una aplicación web diseñada para ayudarte a organizar tus rutina
 - bcrypt para hashing de contraseñas  
 
 
+
+
+# Instrucciones para ejecutar el proyecto
+
+### Requisitos previos
+
+- Node.js y npm instalados.
+- Angular CLI instalado globalmente (`npm install -g @angular/cli`).
+- Servidor MySQL en funcionamiento (puede ser local o remoto).
+
+---
+
+## Configuración de la base de datos
+
+1. Abre tu herramienta MySQL (MySQL Workbench o la terminal).
+2. Crea una nueva base de datos, explicado en init_db.sql
+
 ## Instrucciones para Ejecutar el Backend 
 
 1. ### Asegúrate de tener instalado Node.js y MySQL.
@@ -56,41 +73,26 @@ npm run dev
 
 El backend se ejecutará en: http://localhost:4500
 
-# Instrucciones para ejecutar el proyecto
-
-### Requisitos previos
-
-- Node.js y npm instalados.
-- Angular CLI instalado globalmente (`npm install -g @angular/cli`).
-- Servidor MySQL en funcionamiento (puede ser local o remoto).
-
----
-
-## Configuración de la base de datos
-
-1. Abre tu herramienta MySQL (MySQL Workbench o la terminal).
-2. Crea una nueva base de datos, explicado en init_db.sql
-
 ## Instrucciones para Ejecutar el Frontend (Angular)
 
-1. ## Desde el directorio raíz:
+1. ### Desde el directorio raíz:
 
 ```JSON
 cd ../frontend
 ```
 
-2. ## Instala las dependencias:
+2. ### Instala las dependencias:
 
 ```JSON
 npm install
 ```
 
-3. ## Ejecuta la aplicación:
+3. ### Ejecuta la aplicación:
 
 ```JSON
 ng serve
 ```
 
-4. ## Abre el navegador en: http://localhost:4200
+4. ### Abre el navegador en: http://localhost:4200
 
 
