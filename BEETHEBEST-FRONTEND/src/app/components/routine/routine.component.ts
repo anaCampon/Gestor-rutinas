@@ -79,6 +79,7 @@ export class RoutineComponent implements OnInit {
 
         // Reordenar los días según el orden de la semana
         const sorted: { [key: string]: any[] } = {};
+        
         for (const day of this.weekDaysOrder) {
           if (result[day]) {
             sorted[day] = result[day];
@@ -86,6 +87,7 @@ export class RoutineComponent implements OnInit {
         }
 
         this.groupedRoutines = sorted;
+        //Creo un array que transforma cada dñia en un objeto con el día y las tareas
         this.orderedGroupedRoutines = this.weekDaysOrder
         .filter(day => sorted[day])
         .map(day => ({ day, tasks: sorted[day] }));
@@ -126,7 +128,7 @@ export class RoutineComponent implements OnInit {
 
 
   addTask(weekDay: string): void {
-    //Para buscar el routine_id con el routineName
+    //Busco en el array que el nombre del formulario coincida con el del array
     const matchingRoutine = this.allRoutines.find(
       r => r.name === this.newTask.routineName
       
@@ -142,7 +144,7 @@ export class RoutineComponent implements OnInit {
     const taskToSend = {
       ...this.newTask,
       weekDay,
-      IdRoutine: matchingRoutine.idRoutine, // Asignar el id de la rutina
+      IdRoutine: matchingRoutine.idRoutine,
     };
     delete taskToSend.routineName; //Elimino el nombre de la rutina
 
