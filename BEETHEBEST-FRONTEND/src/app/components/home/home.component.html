@@ -1,17 +1,17 @@
 
 <main>
  <!-- Sección principal -->
- <section class="contenedorPrincipal">
-    <div class="container d-grid gap-4">
-      <h1 class="display-5 fw-bold">Productividad sin límites</h1>
-      <p class="lead gap-4">Organiza tu aprendizaje diario con rutinas adaptadas a tu estilo.</p>
-      <h2 class="display-6 fw-bold">¡Empieza hoy!</h2>
-      <!-- d-md-flex es display flex para pantallas md. mt es margin top -->
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
-        <a class="btn btn-secondary btn-lg mt-3 " [routerLink]="['/register']"> Registrarse </a>
-        <a class="btn btn-warning btn-lg mt-3 " [routerLink]="['/login']">Inicia Sesión</a>
+ <section class="backgroundSplit">
+      <div class="content-overlay container">
+        <h1 class="display-5 fw-bold d-md-flex justify-content-md-center">Productividad sin límites</h1>
+        <p class="lead gap-4 d-md-flex justify-content-md-center">Organiza tu aprendizaje diario con rutinas adaptadas a tu estilo.</p>
+        <h2 class="display-6 fw-bold d-md-flex justify-content-md-center">¡Empieza hoy!</h2>
+        <!-- d-md-flex es display flex para pantallas md. mt es margin top -->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+          <a class="btn btn-secondary btn-lg mt-3 " [routerLink]="['/register']"> Registrarse </a>
+          <a class="btn btn-warning btn-lg mt-3 " [routerLink]="['/login']">Inicia Sesión</a>
+        </div>
       </div>
-    </div>
   </section>
 
   <!-- Sección secundaria -->
